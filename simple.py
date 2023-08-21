@@ -2,7 +2,7 @@
 
     MQTT Simple client code for micropython
     
-    Originally From https://raw.githubusercontent.com/RuiSantosdotme/ESP-MicroPython/master/code/MQTT/umqttsimple.py
+    From https://raw.githubusercontent.com/RuiSantosdotme/ESP-MicroPython/master/code/MQTT/umqttsimple.py
     
     Raises:
         MQTTException: _description_
@@ -187,6 +187,7 @@ class MQTTClient:
     def wait_msg(self):
         res = self.sock.recv(1)
         # self.sock.setblocking(True)
+        self.sock.settimeout(120)
         if res is None:
             return None
         if res == b"":
