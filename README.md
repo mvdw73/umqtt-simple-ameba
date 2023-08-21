@@ -8,7 +8,7 @@ Originally this came from https://raw.githubusercontent.com/RuiSantosdotme/ESP-M
 
 ## Rationale
 
-This exists becasue the Ameba socket API follows the CPython API more closely than the ESP micropython socket API. Specifically, the ameba API has `send` and `recv` rather than `write` and `read` in the more widely-used ESP micropython socket.
+This exists because the Ameba socket API follows the CPython API more closely than the ESP micropython socket API. Specifically, the ameba API has `send` and `recv` rather than `write` and `read` in the more widely-used ESP micropython socket.
 
 Also, the mechanism for connecting is different in the Ameba device. There is no `getaddrinfo` function, but the `connect` function takes two parameters being a server address and port. The server address can be a FQDN or an IP address. 
 
@@ -16,11 +16,13 @@ Also, the mechanism for connecting is different in the Ameba device. There is no
 
 In short, because Ameba. The Ameba socket port is fairly incomplete, and doesn't have setblocking functionality.
 
-Also, the ameba port is a fair bit behind the upstream micropython, so doesn't at the time of writing have asyncio, so we can't use Peter Hinch's excellent mqtt_as implementation.
+Also, the Ameba port is a fair bit behind the upstream micropython, so doesn't at the time of writing have asyncio, so we can't use [Peter Hinch's excellent mqtt_as](https://github.com/peterhinch/micropython-mqtt) implementation.
 
 ## Known Issues
 
 Since there's no `setblocking` method in the ameba socket class, the `wait_msg` function doesn't block. This means in the real application you'll have to poll the subscribe method continually to check for messages. Yes, I know it sucks. The long term solution will be for Realtek to have their micropython port sync'ed with upstream and use asyncio.
+
+This will only work with a more recent (custom) build of the [Realtek Ameba micropython port](https://github.com/ambiot/micropython/tree/ameba), due to changed socket class API between the current release dated Dec 19 2022 and the latest version.
 
 ## Usage
 
